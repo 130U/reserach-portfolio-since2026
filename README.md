@@ -1,39 +1,40 @@
 # Research Portfolio
 
-A cross-disciplinary collection of independent research, technical reading notes, and analytical writing since 2026.
+**Independent research that connects technical mechanisms, market structure, and evidence-driven decisions.**
 
-This repository brings earlier research into one place, with readable reports alongside the sources, reasoning, and supporting artifacts that shaped them. It is a growing collection across fields. Each entry defines its own question, methods, and evidence boundaries.
+I design research questions, reconstruct the underlying methods, and turn findings into reports that readers can inspect from conclusion to original source. This portfolio brings together bilingual technical analysis, an original research-governance workflow, and visual synthesis across embodied AI and world models.
 
-## Start reading
+Research design and writing by **Theodore Ouyang**. AI and agents support parallel investigation, source recovery, and production; the question structure, analytical framework, selection decisions, and final interpretation remain author-owned.
 
-The current published entries are available in Chinese and English.
+## Selected work
 
-| Work | What to look for | Read |
+| Work | My contribution | Read |
 | --- | --- | --- |
-| **π₀: How a Robot Turns “Understanding the Task” into Continuous Action** | An equation-led reading note on the semantic backbone, flow-matching action expert, and execution loop. It distinguishes what the paper establishes from teaching examples, code differences, and interpretation. | [中文](research/2026-08-02-pi0-vla-flow/README.zh-CN.md) · [English](research/2026-08-02-pi0-vla-flow/README.en.md) |
-| **Manifold: Overseas World-Model Landscape** | A research retrospective showing how a broad discovery pool becomes a bounded comparison through qualification gates, source recovery, counter-evidence, and red-team review. | [中文](research/2026-08-03-manifold-world-model-landscape/README.zh-CN.md) · [English](research/2026-08-03-manifold-world-model-landscape/README.en.md) |
-| **From Vision and Instructions to Robot Actions: Two Emerging Paths** | A comparison of VLA and world-action approaches by what they learn, which representations reach the action generator, and what computation remains at inference. | [中文](articles/2026-08-03-from-vision-and-instructions-to-robot-actions/README.zh-CN.md) · [English](articles/2026-08-03-from-vision-and-instructions-to-robot-actions/README.en.md) |
+| **π₀: From Task Understanding to Continuous Action** | An equation-led reconstruction of the semantic backbone, flow-matching action expert, training objective, and receding-horizon control loop. Connects the paper's formulation to the public implementation. | [中文](research/2026-08-02-pi0-vla-flow/README.zh-CN.md) · [English](research/2026-08-02-pi0-vla-flow/README.en.md) |
+| **Manifold: Overseas World-Model Landscape** | A designed decision process that transforms discovery leads into technical qualification, five-object selection, source-backed dossiers, and a presentation with claim-level traceability. | [中文](research/2026-08-03-manifold-world-model-landscape/README.zh-CN.md) · [English](research/2026-08-03-manifold-world-model-landscape/README.en.md) |
+| **From Vision and Instructions to Robot Actions** | An original comparison framework and diagram organized around learning objectives, intermediate representations, and inference-time computation across five primary papers. | [中文](articles/2026-08-03-from-vision-and-instructions-to-robot-actions/README.zh-CN.md) · [English](articles/2026-08-03-from-vision-and-instructions-to-robot-actions/README.en.md) |
 
-For a technical walkthrough, begin with **π₀**. For the research process and its evidence trail, begin with **Manifold**. For a shorter synthesis across approaches, begin with **Two Emerging Paths**.
+## A research system with measurable outputs
 
-## Follow the evidence
+The **Manifold study**, fixed at **July 14, 2026**, is the most complete demonstration of my research process. I split the initial question into three investigations, designed geographic and technical qualification gates, and established a `Source Card → Atomic Claim → Evidence Map` chain before producing the final analysis.
 
-The reports are the reading layer; the supporting materials make their claims easier to inspect.
+That process moved **23 discovery leads → 10 validation objects → 5 selected dossiers**, covering World Labs, Odyssey, Runway, Decart, and NVIDIA Cosmos 3. The work produced:
 
-- **π₀:** the [source registry](research/2026-08-02-pi0-vla-flow/SOURCES.yaml) and [audit](research/2026-08-02-pi0-vla-flow/AUDIT.md) record paper versions, bilingual alignment, and technical qualifications.
-- **Manifold:** the [preserved research snapshot](research/2026-08-03-manifold-world-model-landscape/source-snapshot/README.md) includes original inputs, company dossiers, source cards, an atomic-claim ledger, decision records, and red-team revisions. The [final ten-page presentation](research/2026-08-03-manifold-world-model-landscape/source-snapshot/archive/manifold-world-model-landscape/10_deck/manifold_world_model_landscape_v1_4.pptx) condenses the conclusions; the [migration record](research/2026-08-03-manifold-world-model-landscape/MIGRATION.md) identifies the preserved source commit and checksum manifest.
-- **Two Emerging Paths:** the [article](articles/2026-08-03-from-vision-and-instructions-to-robot-actions/README.en.md) contains the original comparison diagram and five primary-paper references.
+- **58 targeted support and counter-evidence queries**;
+- **141 registered sources and corresponding source cards**;
+- **111 atomic claims in a 22-field evidence ledger**;
+- **63 unique page-evidence mappings across 10 content units**;
+- **22 monitoring signals and watch triggers**;
+- A final **10-page presentation with source-linked conclusions**.
 
-## Reading boundaries
+The analytical result identifies three delivery paths—publicly priced interfaces, application-controlled access, and downloadable components—and turns them into concrete questions about integration, rights, validation, and total cost of ownership. Version attribution, component ownership, and commercial access are treated as explicit research variables.
 
-Each work should be read at its stated cutoff and source version. Paper-reported results, company disclosures, and my interpretation are distinguished within the entries; reading or auditing a source does not establish independent reproduction.
+The [evidence model](research/2026-08-03-manifold-world-model-landscape/source-snapshot/docs/methodology/evidence-model.md) records complete source-card resolution, claim identifiers and source links, unique page mappings, and zero unresolved non-empty references. The [preserved snapshot](research/2026-08-03-manifold-world-model-landscape/source-snapshot/README.md) includes dossiers, decisions, red-team revisions, generation code, and QA; the [final deck](research/2026-08-03-manifold-world-model-landscape/source-snapshot/archive/manifold-world-model-landscape/10_deck/manifold_world_model_landscape_v1_4.pptx) presents the conclusions.
 
-The Manifold study uses public information as of **July 14, 2026**. Its five selected objects represent different delivery and risk paths, and its conclusions remain conditional on the evidence available at that date. The Chinese report is the complete narrative; the English companion is shorter.
+## Follow the technical reasoning
 
-## About
-
-Research design and writing by **Theodore Ouyang**. AI-assisted research and production are described where relevant, together with the decisions and responsibility retained by the author.
+Start with **π₀** for a mathematical walkthrough, **Manifold** for research design and evidence architecture, or **Robot Actions** for a visual comparison. Each entry pairs readable analysis with its supporting artifacts: the [π₀ source registry](research/2026-08-02-pi0-vla-flow/SOURCES.yaml), [technical audit](research/2026-08-02-pi0-vla-flow/AUDIT.md), and [Manifold migration record](research/2026-08-03-manifold-world-model-landscape/MIGRATION.md) make versions and provenance explicit.
 
 [Research index](research/README.md) · [Article index](articles/README.md) · [GitHub](https://github.com/130U)
 
-Third-party materials retain their original rights. The Manifold snapshot carries its own [notice and reuse terms](research/2026-08-03-manifold-world-model-landscape/source-snapshot/NOTICE.md).
+Third-party materials retain their original rights. The preserved Manifold archive carries its own [notice and reuse terms](research/2026-08-03-manifold-world-model-landscape/source-snapshot/NOTICE.md).
