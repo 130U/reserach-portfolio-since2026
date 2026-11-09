@@ -22,7 +22,7 @@ I follow π₀ from conditional flow matching to action chunks to real-world fee
 
 ![The pi-zero execution loop: observe, understand, generate a 50-action chunk with ten flow updates, execute only a prefix of 16 actions at 20 Hz or 25 actions at 50 Hz, then replan from a new observation](.github/readme/pi0-loop.svg)
 
-I argue that the design choice that lasts is the interface between a general semantic backbone and a continuous-control expert. Models on either side of that interface can improve independently, and the same seam points toward a complementary role for world models in planning and consequence evaluation.
+I argue that the design choice that lasts is the interface between a general semantic backbone and a continuous-control expert. That seam also points toward a complementary role for world models in planning and consequence evaluation.
 
 **[Read the technical walkthrough](research/2026-08-02-pi0-vla-flow/README.en.md)** · [Chinese edition](research/2026-08-02-pi0-vla-flow/README.zh-CN.md)
 
