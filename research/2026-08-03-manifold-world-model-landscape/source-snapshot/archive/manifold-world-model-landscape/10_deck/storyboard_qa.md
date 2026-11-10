@@ -17,7 +17,6 @@
 - 四份冻结文件逐字节匹配批准记录和 live 权威路径；
 - Evidence 底座：141 sources / 111 unique claims / 141 source cards；Ledger 非截断；
 - 独立机械记录：`08_content/content_lock_v1_1a_approval_mechanical_qa.md`；
-- 旧 `content_lock_v1_1a_frozen_attachments.zip` 明确为非 canonical，不得用于审计。
 
 结论：`pass`。Content Lock 批准继续有效，冻结文件与批准哈希无漂移。
 
@@ -63,7 +62,7 @@ pdf_created=false
 
 ### 灰盒机械回归
 
-独立版式复核先发现 P1/P2/P10 纵向预算不足，随后发现首轮灰盒未完整纳入 P1 三类路径标签及 P2 Runway Robotics、Cosmos 3 规划控制次级标签与 AMI Labs“自有”限定。完成定点修正，并将 `Runway Robotics：⏎规划控制（次级）` 锁定为语义换行后，使用 PowerPoint 16、Noto Sans SC 和 1280×720 画布实际渲染：37 个文本框全部 fit，失败数 0，slide XML 无 DejaVu，三页全尺寸视觉检查无溢出、裁切或意外换行。证据见 `10_deck/storyboard_graybox_preflight.md` 与 `qa_assets/storyboard_graybox_result.json`；最终版式复核为 `P0=0 / P1=0 / P2=0`。
+最终演示稿的 PowerPoint 渲染、字体和文本边界核验见 [交付检查](final_deck_qa_v1_4.md)。
 
 ## 结构与范围回归
 

@@ -52,14 +52,8 @@ mkdocs build --strict
 
 ## 6. PPT 复现边界
 
-原始 PPT 生成程序依赖 Codex 打包运行时中的 `@oai/artifact-tool`，并包含原机器绝对路径。它已被归档，但不是跨机器一键可运行程序。
+当前生成器为 `archive/generation/build_deck_v1_4.original.mjs`，使用相对输入输出路径和可选的 `MANIFOLD_DECK_TMP` 临时目录。它依赖 Codex 提供的 `@oai/artifact-tool`；该运行时需要由执行环境提供，仓库不包含其安装包。
 
-要实现完全复现，需要：
+生成环境需要 Noto Sans SC 和 Noto Serif SC。最终实机验证使用 Microsoft PowerPoint 16 COM；`10_deck/tools/qa_deck_powerpoint.ps1` 接受 `InputPptx` 和 `OutputDir` 参数，核对字体、OOXML 与文本边界。生成后仍需人工逐页检查。
 
-1. 将输入、输出和临时目录改为参数；
-2. 锁定 Node 和 `@oai/artifact-tool` 版本；
-3. 安装 Noto Sans SC / Noto Serif SC；
-4. 使用 Microsoft PowerPoint 16 COM 完成最终实机渲染；
-5. 重新执行字体、OOXML、文本边界和人工视觉 QA。
-
-本仓库的长期维护不要求重新生成 PPT。
+发布文件为 PPTX；研究证据的机械审计不要求重新生成演示稿。

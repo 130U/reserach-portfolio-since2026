@@ -8,3 +8,5 @@
 - [Red Team 报告](source-snapshot/archive/manifold-world-model-landscape/09_red_team/red_team_report.md)
 - [最终 10 页 PPTX](source-snapshot/archive/manifold-world-model-landscape/10_deck/manifold_world_model_landscape_v1_4.pptx)
 - [内容审计](AUDIT.md)
+
+- [研究材料与固定版本](MATERIALS.md)

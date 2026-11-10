@@ -63,7 +63,7 @@ $results.Add((Assert-Equal 'public_boundary_declared' ($readme.Contains('publica
 $results.Add((Assert-Equal 'research_design_ownership_declared' ($readme.Contains('Research design &amp; decision ownership')) $true))
 
 $archiveFiles = @(Get-ChildItem -LiteralPath $archive -Recurse -File).Count
-$results.Add((Assert-Equal 'archived_project_files' $archiveFiles 331))
+$results.Add((Assert-Equal 'archived_project_files' $archiveFiles 254))
 
 $sources = @(Import-Csv (Join-Path $archive '04_evidence\sources.csv')).Count
 $sourceCards = @(Get-ChildItem (Join-Path $archive '04_evidence\sources') -File -Filter '*.md').Count

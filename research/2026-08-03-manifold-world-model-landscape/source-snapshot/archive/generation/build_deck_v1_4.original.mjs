@@ -177,7 +177,7 @@ function page1(p) {
     e.push(t(`p1-band-body-${i}`, bodies[i], cols[i] + 28, 548, 300, 70, BODY, { lineSpacing: 1.12 }));
   }
   e.push(...footer(1, "公开来源：官方产品、API、价格、条款、公司/伙伴自报及独立体验"));
-  addSlide(p, "manifold-v13-p1", e);
+  addSlide(p, "manifold-p1", e);
 }
 
 function page2(p) {
@@ -248,7 +248,7 @@ function page2(p) {
   e.push(t("p2-ami-detail", "暂不归入三类世界形态；自有技术资产与外部入口待核", 382, 618, 760, 24, BODY, { color: MUTED }));
   e.push(t("p2-scope", "5/4/1；中国大陆公司与类别外路线不作节点；Manifold 只作公开锚点。", 64, 650, 1096, 20, FOOT, { color: MUTED }));
   e.push(...footer(2, "来源：官方项目、产品、代码仓库、开发者资料及公司/地域资料"));
-  addSlide(p, "manifold-v13-p2", e);
+  addSlide(p, "manifold-p2", e);
 }
 
 function page3(p) {
@@ -294,7 +294,7 @@ function page3(p) {
     hy += heights[r + 1];
   }
   e.push(...footer(3, "来源：官方技术、产品、接入、价格和条款资料；公司/伙伴自报及独立体验"));
-  addSlide(p, "manifold-v12-p3", e);
+  addSlide(p, "manifold-p3", e);
 }
 
 function companyIdentity(page, label, title, route, routeColor = CLAY, titleSize = 40) {
@@ -329,7 +329,7 @@ function page4(p) {
   e.push(...sectionLabel("p4-trigger", "关键触发器", 836, 500, 260, SAGE));
   e.push(t("p4-trigger-body", "RTFM 获得独立复现，\n或 World API 形成版本化服务。", 836, 552, 308, 60, BODY, { bold: true, lineSpacing: 1.18 }));
   e.push(...footer(4, "来源：官方研究/项目页、API、价格、条款及厂商案例", "RTFM 与 World API 分立"));
-  addSlide(p, "manifold-v13-p4", e);
+  addSlide(p, "manifold-p4", e);
 }
 
 function page5(p) {
@@ -361,7 +361,7 @@ function page5(p) {
   });
   e.push(t("p5-limit-note", "这些运营限制均不构成服务等级保证。", 790, 592, 348, 36, BODY, { bold: true, color: MUTED }));
   e.push(...footer(5, "来源：官方开发者文档、运营限制与条款；公司自报云合作"));
-  addSlide(p, "manifold-v13-p5", e);
+  addSlide(p, "manifold-p5", e);
 }
 
 function page6(p) {
@@ -388,7 +388,7 @@ function page6(p) {
   e.push(t("p6-trigger-title", "关键触发器", 836, 566, 220, 28, SUB, { bold: true }));
   e.push(t("p6-trigger-body", "任一组件获得独立调用，\n并获得伙伴侧生产确认。", 836, 598, 308, 42, BODY, { bold: true, lineSpacing: 1.1 }));
   e.push(...footer(6, "来源：官方产品、申请入口、SDK/部署资料及公司自报", "Worlds ≠ Robotics"));
-  addSlide(p, "manifold-v13-p6", e);
+  addSlide(p, "manifold-p6", e);
 }
 
 function page7(p) {
@@ -417,7 +417,7 @@ function page7(p) {
   e.push(t("p7-trigger-title", "关键触发器", 944, 550, 208, 28, SUB, { bold: true }));
   e.push(t("p7-trigger-body", "预览接口正式商用，\n并闭合服务等级、\n数据和责任边界。", 944, 582, 208, 62, BODY, { bold: true, lineSpacing: 1.08 }));
   e.push(...footer(7, "来源：官方产品/API、价格、条款及独立产品体验"));
-  addSlide(p, "manifold-v13-p7", e);
+  addSlide(p, "manifold-p7", e);
 }
 
 function page8(p) {
@@ -449,7 +449,7 @@ function page8(p) {
   e.push(t("p8-trigger-title", "关键触发器", 836, 548, 220, 28, SUB, { bold: true }));
   e.push(t("p8-trigger-body", "稳定动作运行时或动作 NIM 正式发布，\n并获得独立复现。", 836, 586, 308, 52, BODY, { bold: true, lineSpacing: 1.16 }));
   e.push(...footer(8, "来源：官方研究、模型、自托管文档、Release Notes、许可及伙伴自报", "Generator NIM ≠ action runtime"));
-  addSlide(p, "manifold-v13-p8", e);
+  addSlide(p, "manifold-p8", e);
 }
 
 function page9(p) {
@@ -488,7 +488,7 @@ function page9(p) {
     e.push(rule(`p9-row-rule-${r}`, x, ry + rowH, 1152, 1, RULE));
   }
   e.push(...footer(9, "来源：官方研究、产品、代码仓库、公司及地域资料"));
-  addSlide(p, "manifold-v12-p9", e);
+  addSlide(p, "manifold-p9", e);
 }
 
 function page10(p) {
@@ -539,7 +539,7 @@ function page10(p) {
     if (i < 4) e.push(rule(`p10-trigger-v-${i}`, x + tw + gap / 2, 502, 1, 132, RULE));
   }
   e.push(...footer(10, "跨页综合：官方条款、开发者和技术资料；公司/伙伴自报及独立体验"));
-  addSlide(p, "manifold-v12-p10", e);
+  addSlide(p, "manifold-p10", e);
 }
 
 async function writeBlob(filePath, blob) {

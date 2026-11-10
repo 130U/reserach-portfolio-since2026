@@ -9,9 +9,17 @@ param(
 $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
 
-$fontFamily = 'Noto Sans SC'
-$fontPath = 'C:\Windows\Fonts\NotoSansSC-VF.ttf'
-$expectedFontHash = '763146584CF0710223441356B4395E279021B0806C196614377A7A0174AE074A'
+$fontFiles = [ordered]@{
+    'Noto Sans SC' = [PSCustomObject]@{
+        path = 'C:\Windows\Fonts\NotoSansSC-VF.ttf'
+        sha256 = '763146584CF0710223441356B4395E279021B0806C196614377A7A0174AE074A'
+    }
+    'Noto Serif SC' = [PSCustomObject]@{
+        path = 'C:\Windows\Fonts\NotoSerifSC-VF.ttf'
+        sha256 = 'A4AED9985A5916FBF6690456F8732A9FCCD517938E353165D4142B4F11A39280'
+    }
+}
+$allowedFonts = @($fontFiles.Keys)
 
 if (-not [System.IO.Path]::IsPathRooted($InputPptx)) {
     $InputPptx = [System.IO.Path]::GetFullPath((Join-Path (Get-Location) $InputPptx))
@@ -22,23 +30,31 @@ if (-not [System.IO.Path]::IsPathRooted($OutputDir)) {
 if (-not (Test-Path -LiteralPath $InputPptx)) {
     throw "PPTX not found: $InputPptx"
 }
-if (-not (Test-Path -LiteralPath $fontPath)) {
-    throw "Required font not found: $fontPath"
+
+$fontAudit = [ordered]@{}
+foreach ($family in $fontFiles.Keys) {
+    $spec = $fontFiles[$family]
+    if (-not (Test-Path -LiteralPath $spec.path)) {
+        throw "Required font not found: $($spec.path)"
+    }
+    $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath $spec.path).Hash
+    if ($actual -ne $spec.sha256) {
+        throw "Font hash mismatch for $family. Expected $($spec.sha256); got $actual"
+    }
+    $fontAudit[$family] = [PSCustomObject]@{ path = $spec.path; sha256 = $actual }
 }
 
 New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 Get-ChildItem -LiteralPath $OutputDir -File -Filter 'slide-*.png' -ErrorAction SilentlyContinue |
     Remove-Item -Force
 
-$actualFontHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $fontPath).Hash
-if ($actualFontHash -ne $expectedFontHash) {
-    throw "Font hash mismatch. Expected $expectedFontHash; got $actualFontHash"
-}
-
 $violations = [System.Collections.Generic.List[object]]::new()
 $textAudit = [System.Collections.Generic.List[object]]::new()
 $powerPoint = $null
 $presentation = $null
+$slideCount = 0
+$slideWidth = 0.0
+$slideHeight = 0.0
 
 function Add-Violation {
     param([string]$Code, [int]$Slide, [string]$Shape, [string]$Detail)
@@ -48,6 +64,13 @@ function Add-Violation {
         shape = $Shape
         detail = $Detail
     })
+}
+
+function Get-MinimumFontSize {
+    param([string]$ShapeName)
+    if ($ShapeName -match '(?i)footer|scope|legend|note') { return 10.0 }
+    if ($ShapeName -match '(?i)eyebrow|identity|kicker|report|date|tag|num|established-label') { return 14.0 }
+    return 16.0
 }
 
 function Inspect-ShapeCollection {
@@ -68,23 +91,18 @@ function Inspect-ShapeCollection {
                 continue
             }
 
-            if ($shape.HasTextFrame -ne -1 -or $shape.TextFrame.HasText -ne -1) {
-                continue
-            }
+            if ($shape.HasTextFrame -ne -1 -or $shape.TextFrame.HasText -ne -1) { continue }
 
             $range = $shape.TextFrame.TextRange
             $value = [string]$range.Text
-            if ([string]::IsNullOrWhiteSpace($value)) {
-                continue
-            }
+            if ([string]::IsNullOrWhiteSpace($value)) { continue }
 
             $fontName = [string]$range.Font.Name
             $fontNameFarEast = [string]$range.Font.NameFarEast
             $fontSize = [double]$range.Font.Size
-            $isFooter = ($shapeName -match '(?i)footer|page|scope') -or ([double]$shape.Top -ge 500)
-            $minimumSize = if ($isFooter) { 10.0 } else { 16.0 }
+            $minimumSize = Get-MinimumFontSize -ShapeName $shapeName
 
-            if (($fontName -ne $fontFamily) -or ($fontNameFarEast -ne $fontFamily)) {
+            if (($fontName -notin $allowedFonts) -or ($fontNameFarEast -notin $allowedFonts)) {
                 Add-Violation -Code 'font_fallback_or_mismatch' -Slide $SlideNumber -Shape $shapeName -Detail "Name='$fontName'; NameFarEast='$fontNameFarEast'"
             }
             if ($fontSize -gt 0 -and $fontSize -lt ($minimumSize - 0.05)) {
@@ -120,7 +138,7 @@ function Inspect-ShapeCollection {
                 font_name = $fontName
                 font_name_far_east = $fontNameFarEast
                 font_size = $fontSize
-                footer = $isFooter
+                minimum_size = $minimumSize
                 bound_width = $boundWidth
                 bound_height = $boundHeight
                 available_width = $availableWidth
@@ -128,9 +146,7 @@ function Inspect-ShapeCollection {
             })
         }
         finally {
-            if ($shape) {
-                [void][System.Runtime.InteropServices.Marshal]::FinalReleaseComObject($shape)
-            }
+            if ($shape) { [void][System.Runtime.InteropServices.Marshal]::FinalReleaseComObject($shape) }
         }
     }
 }
@@ -138,7 +154,6 @@ function Inspect-ShapeCollection {
 try {
     $powerPoint = New-Object -ComObject PowerPoint.Application
     $presentation = $powerPoint.Presentations.Open($InputPptx, -1, 0, 0)
-
     $slideCount = [int]$presentation.Slides.Count
     if ($slideCount -ne 10) {
         Add-Violation -Code 'slide_count' -Slide 0 -Shape '' -Detail "Expected 10; got $slideCount"
@@ -146,8 +161,7 @@ try {
 
     $slideWidth = [double]$presentation.PageSetup.SlideWidth
     $slideHeight = [double]$presentation.PageSetup.SlideHeight
-    $ratio = $slideWidth / $slideHeight
-    if ([math]::Abs($ratio - (16.0 / 9.0)) -gt 0.001) {
+    if ([math]::Abs(($slideWidth / $slideHeight) - (16.0 / 9.0)) -gt 0.001) {
         Add-Violation -Code 'slide_ratio' -Slide 0 -Shape '' -Detail "Expected 16:9; got $slideWidth x $slideHeight"
     }
 
@@ -163,23 +177,15 @@ try {
             }
         }
         finally {
-            if ($slide) {
-                [void][System.Runtime.InteropServices.Marshal]::FinalReleaseComObject($slide)
-            }
+            if ($slide) { [void][System.Runtime.InteropServices.Marshal]::FinalReleaseComObject($slide) }
         }
     }
 }
 finally {
-    if ($presentation) {
-        $presentation.Close()
-    }
-    if ($powerPoint) {
-        $powerPoint.Quit()
-    }
+    if ($presentation) { $presentation.Close() }
+    if ($powerPoint) { $powerPoint.Quit() }
     foreach ($comObject in @($presentation, $powerPoint)) {
-        if ($comObject) {
-            [void][System.Runtime.InteropServices.Marshal]::FinalReleaseComObject($comObject)
-        }
+        if ($comObject) { [void][System.Runtime.InteropServices.Marshal]::FinalReleaseComObject($comObject) }
     }
     [GC]::Collect()
     [GC]::WaitForPendingFinalizers()
@@ -191,27 +197,19 @@ try {
     $slideXml = New-Object System.Text.StringBuilder
     foreach ($entry in $archive.Entries | Where-Object { $_.FullName -match '^ppt/slides/slide\d+\.xml$' }) {
         $reader = New-Object System.IO.StreamReader($entry.Open(), [System.Text.Encoding]::UTF8)
-        try {
-            [void]$slideXml.AppendLine($reader.ReadToEnd())
-        }
-        finally {
-            $reader.Dispose()
-        }
+        try { [void]$slideXml.AppendLine($reader.ReadToEnd()) }
+        finally { $reader.Dispose() }
     }
 }
-finally {
-    $archive.Dispose()
-}
+finally { $archive.Dispose() }
 
 $xmlText = $slideXml.ToString()
-$xmlUsesNoto = $xmlText -match 'typeface="Noto Sans SC"'
+$xmlUsesSans = $xmlText -match 'typeface="Noto Sans SC"'
+$xmlUsesSerif = $xmlText -match 'typeface="Noto Serif SC"'
 $xmlUsesDejaVu = $xmlText -match 'DejaVu Sans'
-if (-not $xmlUsesNoto) {
-    Add-Violation -Code 'ooxml_missing_noto' -Slide 0 -Shape '' -Detail 'Noto Sans SC not found in slide XML.'
-}
-if ($xmlUsesDejaVu) {
-    Add-Violation -Code 'ooxml_dejavu_fallback' -Slide 0 -Shape '' -Detail 'DejaVu Sans found in slide XML.'
-}
+if (-not $xmlUsesSans) { Add-Violation -Code 'ooxml_missing_noto_sans' -Slide 0 -Shape '' -Detail 'Noto Sans SC not found in slide XML.' }
+if (-not $xmlUsesSerif) { Add-Violation -Code 'ooxml_missing_noto_serif' -Slide 0 -Shape '' -Detail 'Noto Serif SC not found in slide XML.' }
+if ($xmlUsesDejaVu) { Add-Violation -Code 'ooxml_dejavu_fallback' -Slide 0 -Shape '' -Detail 'DejaVu Sans found in slide XML.' }
 
 $rendered = @(Get-ChildItem -LiteralPath $OutputDir -File -Filter 'slide-*.png' | Sort-Object Name)
 if ($rendered.Count -ne 10) {
@@ -228,9 +226,9 @@ $result = [PSCustomObject]@{
     slide_size_points = [PSCustomObject]@{ width = $slideWidth; height = $slideHeight }
     render_count = $rendered.Count
     render_dir = (Resolve-Path -LiteralPath $OutputDir).Path
-    font_family = $fontFamily
-    font_sha256 = $actualFontHash
-    ooxml_uses_noto_sans_sc = $xmlUsesNoto
+    fonts = $fontAudit
+    ooxml_uses_noto_sans_sc = $xmlUsesSans
+    ooxml_uses_noto_serif_sc = $xmlUsesSerif
     ooxml_uses_dejavu_sans = $xmlUsesDejaVu
     text_box_count = $textAudit.Count
     violation_count = $violations.Count
@@ -243,15 +241,14 @@ $mdPath = Join-Path $OutputDir 'powerpoint_qa.md'
 $result | ConvertTo-Json -Depth 8 | Set-Content -Encoding UTF8 -LiteralPath $jsonPath
 
 $md = @(
-    '# Final deck PowerPoint QA',
+    '# Presentation PowerPoint QA',
     '',
     "- Status: $($result.status)",
     "- Slides: $slideCount",
     "- Canvas: $slideWidth x $slideHeight pt (16:9)",
     "- Rendered PNGs: $($rendered.Count)",
     "- Text boxes audited: $($textAudit.Count)",
-    "- Font: $fontFamily",
-    "- Font SHA256: $actualFontHash",
+    "- Fonts: $($allowedFonts -join ', ')",
     "- PPTX SHA256: $($result.pptx_sha256)",
     "- Violations: $($violations.Count)"
 )
@@ -269,5 +266,5 @@ $result | Select-Object status, slide_count, render_count, text_box_count, viola
     ConvertTo-Json -Depth 3
 
 if ($violations.Count -gt 0) {
-    throw "Final deck PowerPoint QA failed with $($violations.Count) violation(s)."
+    throw "Presentation PowerPoint QA failed with $($violations.Count) violation(s)."
 }

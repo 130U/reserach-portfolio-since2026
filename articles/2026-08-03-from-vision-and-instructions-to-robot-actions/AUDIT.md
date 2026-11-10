@@ -10,7 +10,7 @@ Status: passed
 
 - The English body preserves Theodore Ouyang's original article published on July 29, 2026.
 - The Chinese body is a complete portfolio translation, not a new technical claim set.
-- The original comparison diagram is stored locally with the article; the published route does not hotlink it.
+- The original comparison diagram is stored locally with the article; the Markdown editions link to that local file.
 
 ## Checks
 
@@ -19,4 +19,4 @@ Status: passed
 - [x] Matching external-link order in both language sources
 - [x] Original model distinctions, qualifications, three closing questions, and five primary references preserved
 - [x] Image alt text supplied in both languages
-- [x] Responsive, single-language, paired-language, keyboard, and reduced-motion behavior inherited from the shared article reader
+- [x] Relative image and document links resolve within the repository

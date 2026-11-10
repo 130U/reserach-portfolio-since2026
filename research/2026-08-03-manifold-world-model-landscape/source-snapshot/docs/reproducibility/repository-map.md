@@ -19,7 +19,7 @@
 
 ## 原工作区归档
 
-原项目共有 333 个阶段文件。公开发布树保留其中 331 个文件，并执行三类非研究性整理：清理不可移植的 DR 引用标记；将三份 Dossier 支持文件移到相邻目录；移除两个包含机器本地路径元数据、且不含独有内容的历史派生 ZIP 字节包。ZIP 的原始 SHA256 与 16 个 canonical 成员文件仍然保留，研究结论未改变。
+工作区按研究输入、对象资格、来源与主张、综合结论和最终演示稿组织。决策记录保存研究判断的证据依据，`10_deck/` 提供当前 v1.4 演示稿及其生成与验证所需材料。
 
 ```text
 00_brief     章程、状态、决策日志
@@ -33,19 +33,18 @@
 07_synthesis 横向比较、矩阵和工作簿
 08_content   Content Lock、Evidence Map 和冻结包
 09_red_team  独立 Red Team
-10_deck      Storyboard、PPTX 版本、渲染和 QA
+10_deck      当前 Storyboard、PPTX、渲染和 QA
 ```
 
 ## 生成程序
 
-`archive/generation/` 补回了原项目目录缺失的 Deck 生成代码：
+`archive/generation/` 保存当前演示稿的生成代码：
 
-- `build_deck_v1_0.original.mjs`；
 - `build_deck_v1_4.original.mjs`；
 - `package.json`；
 - `source-notes.txt`。
 
-公开发布版已将原始绝对路径改为相对路径、环境变量或包名导入。若要重新运行，仍需安装锁定版本的依赖，并为 Deck 临时目录设置 `MANIFOLD_DECK_TMP`（可选）。
+生成器使用相对路径、环境变量和包名导入。若要重新运行，仍需安装锁定版本的依赖，并为 Deck 临时目录设置 `MANIFOLD_DECK_TMP`（可选）。
 
 ## Provenance
 

@@ -4,6 +4,8 @@
 
 Independent research and writing by **Theodore Ouyang**. I take a contested technical field, find the one question that separates its systems, and follow that question from the equations to the market.
 
+Fixed repository version: [V_202611](https://github.com/130U/reserach-portfolio-since2026/tree/V_202611).
+
 ## Where the Future Enters
 
 The labels “VLA” and “world-action model” hide more than they reveal. I compare robot models with three questions instead: what is the model trained to predict, what representation reaches the action generator, and what computation remains when the robot runs?

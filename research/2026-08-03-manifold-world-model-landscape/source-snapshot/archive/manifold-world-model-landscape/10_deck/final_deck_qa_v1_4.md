@@ -7,18 +7,10 @@
 ## 交付身份
 
 - 当前交付：`10_deck/manifold_world_model_landscape_v1_4.pptx`
-- v1.0–v1.3 均作为历史快照保留，未覆盖
 - 字节数：62,779
 - SHA256：`B61FE7FBB66CD1B7F7C926CF254CF4F32ED6B7E5A94C1B488648A2FFABAB02E9`
 - 页数：10，含封面功能
-- 交付范围：PPTX only；PDF 未启动且不构成 blocker
-
-## 本轮窄范围调整
-
-- Page 1、2 未修改；PowerPoint 渲染 SHA256 与 v1.3 对应页面完全一致。
-- Page 10 标题改为单行：`Manifold 先完成三项底座建设，再用五类证据触发重审`。标题、副标题与行动区之间重新建立纵向留白。
-- Page 4–8 两行主标题采用更松的行距，并适度缩小字级；主标题与路线说明之间的间距增加。
-- Page 3、9 仅拉开主标题与副标题间距，表格内容与研究结论不变。
+- 交付范围：PPTX
 
 ## PowerPoint 实机 QA
 

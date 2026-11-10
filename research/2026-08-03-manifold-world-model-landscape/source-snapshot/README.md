@@ -326,7 +326,7 @@
 项目结束时，输入、研究记录、证据、代码和 QA 分散在不同工作目录中。这一步把它们整理成可长期维护、可以反向检查自身判断的系统：
 
 - 原始输入单独保存在 [`inputs/original/`](inputs/original/)；
-- 原工作区 333 个阶段文件经过公开发布审计后，在 [`archive/manifold-world-model-landscape/`](archive/manifold-world-model-landscape/) 保留 331 个公开安全文件；两个带机器本地路径元数据、且不含独有内容的派生 ZIP 字节包不公开，其原始 SHA256 和 16 个成员文件仍完整保留；
+- [`archive/manifold-world-model-landscape/`](archive/manifold-world-model-landscape/) 保存研究输入、来源与主张、决策记录，以及当前 v1.4 演示稿和验证材料；完整文件与 SHA256 清单见 [`file_manifest.csv`](provenance/file_manifest.csv)；
 - Storyline、方法、Research Log、Agent 和结果被重组到 [`docs/`](docs/)；
 - Agent 创建、实际启动、输入输出角色和工具事件保存在 [`provenance/`](provenance/)；
 - [`scripts/audit/verify_repository.ps1`](scripts/audit/verify_repository.ps1) 可机械复核输入、来源、Claims、Evidence Map、Agent 和关键哈希；
